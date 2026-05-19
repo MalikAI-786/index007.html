@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPX 0DTE AI Signal Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { background: #f8fafc; }
+    .tab-active { background: #0f172a; color: white; }
+    .tab-inactive { background: white; color: #334155; }
+  </style>
+</head>
+<body class="text-slate-950">
+  <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
+    <section class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <div class="text-sm text-slate-500">Production Agent • 9:30 AM ET • U.S. Trading Days</div>
+        <h1 class="mt-2 text-3xl md:text-5xl font-bold tracking-tight">SPX 0DTE AI Signal Dashboard</h1>
+        <p class="mt-2 max-w-3xl text-slate-600">Two-page daily agent framework for SPX intraday bias, model comparison, peer-score averaging, and defined-risk 0DTE decision discipline.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="rounded-2xl border-2 border-orange-200 bg-orange-50 p-5 text-center shadow-sm">
+          <div class="text-sm font-medium text-orange-700">My Model</div>
+          <div class="text-5xl font-black text-orange-700">-3</div>
+          <div class="text-sm text-orange-700">Bearish</div>
+        </div>
+        <div class="rounded-2xl border-2 border-orange-200 bg-orange-50 p-5 text-center shadow-sm">
+          <div class="text-sm font-medium text-orange-700">4-Model Avg.</div>
+          <div class="text-5xl font-black text-orange-700">-1.5</div>
+          <div class="text-sm text-orange-700">Rounded -2</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+      <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">SPX Spot</div><div class="mt-1 text-xl font-bold">~7,358</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">Fragile</span></div>
+      <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">VIX</div><div class="mt-1 text-xl font-bold">18.99</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">Elevated</span></div>
+      <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">10Y Yield</div><div class="mt-1 text-xl font-bold">~4.62%</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">Pressure</span></div>
+      <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">WTI Crude</div><div class="mt-1 text-xl font-bold">&gt;$100</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">Inflation Risk</span></div>
+      <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">Nasdaq Futures</div><div class="mt-1 text-xl font-bold">Mixed</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">Tech Sensitive</span></div>
+      <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">Market Status</div><div class="mt-1 text-xl font-bold">Open</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">9:30 ET</span></div>
+    </section>
+
+    <nav class="grid grid-cols-2 md:grid-cols-4 gap-2 rounded-2xl bg-white p-2 shadow-sm">
+      <button onclick="showTab('page1', this)" class="tab tab-active rounded-xl px-4 py-3 font-semibold">Page 1</button>
+      <button onclick="showTab('page2', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Page 2</button>
+      <button onclick="showTab('agent', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Agent Engine</button>
+      <button onclick="showTab('workflow', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Workflow</button>
+    </nav>
+
+    <section id="page1" class="tab-panel space-y-4">
+      <div class="grid gap-4 lg:grid-cols-3">
+        <div class="rounded-2xl border-2 border-orange-200 bg-orange-50 p-6 shadow-sm">
+          <div class="text-sm font-semibold text-orange-700">SPX 9:30 AM ET Market Report</div>
+          <div class="mt-4 text-7xl font-black text-orange-700">-3</div>
+          <div class="text-lg font-semibold text-orange-700">Bearish</div>
+          <p class="mt-3 text-sm leading-6 text-slate-700">One-line call: macro pressure is outweighing the tech-resilience bid. The setup favors patience, opening-range confirmation, and defined-risk bearish structures only if SPX fails key resistance.</p>
+          <span class="mt-4 inline-block rounded-full border px-3 py-1 text-sm">Confidence: Medium-low</span>
+        </div>
+        <div class="rounded-2xl bg-white p-6 shadow-sm lg:col-span-2">
+          <div class="mb-4 font-semibold">Weighted Factor Breakdown</div>
+          <canvas id="bucketChart" height="120"></canvas>
+        </div>
+      </div>
+      <div class="grid gap-4 lg:grid-cols-2">
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="font-semibold text-emerald-700">Bullish Evidence</h3><ul class="mt-3 list-disc pl-5 space-y-2 text-sm leading-6 text-slate-700"><li>Oil eased slightly from overnight stress levels, reducing immediate panic pressure.</li><li>European markets showed modest stabilization rather than broad global liquidation.</li><li>VIX is elevated but not showing full panic-style acceleration.</li><li>If semiconductors regain leadership, dip-buyers may defend key SPX support.</li></ul></div>
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="font-semibold text-red-700">Bearish / Risk Evidence</h3><ul class="mt-3 list-disc pl-5 space-y-2 text-sm leading-6 text-slate-700"><li>Treasury yields remain near multi-month highs, pressuring long-duration equities.</li><li>Oil above $100 keeps inflation and geopolitical risk in focus.</li><li>Semiconductor and AI infrastructure weakness reduces Nasdaq leadership quality.</li><li>Recent momentum weakened after record highs, making the index more sensitive to macro shocks.</li></ul></div>
+      </div>
+      <div class="grid gap-4 lg:grid-cols-3">
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="font-semibold">SPX Key Levels</h3><div class="mt-3 space-y-2 text-sm"><p><b>Resistance:</b> 7,415–7,430</p><p><b>Breakout Zone:</b> 7,450–7,470</p><p><b>Major Resistance:</b> 7,500</p><p><b>First Support:</b> 7,370–7,355</p><p><b>Major Support:</b> 7,300</p></div></div>
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="font-semibold">Invalidation Logic</h3><p class="mt-3 text-sm leading-6 text-slate-700">Bearish read weakens if SPX reclaims 7,425 with semiconductors leading, VIX falling, yields fading, and breadth improving after the opening range.</p></div>
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="font-semibold">Educational 0DTE Framing</h3><p class="mt-3 text-sm leading-6 text-slate-700">Bias favors a defined-risk bearish structure only after confirmation. Candidate framing: short call spread above resistance or put debit spread after support breaks. Avoid naked exposure and avoid forcing a trade if SPX chops through both sides of the opening range.</p></div>
+      </div>
+    </section>
+
+    <section id="page2" class="tab-panel hidden space-y-4">
+      <div class="grid gap-4 lg:grid-cols-3">
+        <div class="rounded-2xl bg-white p-6 shadow-sm lg:col-span-2"><h3 class="mb-4 font-semibold">Model Score Comparison</h3><canvas id="modelChart" height="120"></canvas></div>
+        <div class="rounded-2xl border-2 border-orange-200 bg-orange-50 p-6 shadow-sm"><div class="text-sm font-semibold text-orange-700">Blended Interpretation</div><div class="mt-3 text-6xl font-black text-orange-700">-1.5</div><div class="font-semibold text-orange-700">Slight Bearish / Choppy</div><p class="mt-4 text-sm leading-6 text-slate-700">Models disagree because one side values tech momentum while the other prioritizes macro risk. Wide dispersion means patience and smaller size.</p></div>
+      </div>
+      <div class="rounded-2xl bg-white p-6 shadow-sm overflow-x-auto">
+        <h3 class="mb-4 text-lg font-bold">Scores Table</h3>
+        <table class="w-full text-sm border rounded-2xl overflow-hidden"><thead class="bg-slate-100 text-left"><tr><th class="p-3">Model</th><th class="p-3">Score</th><th class="p-3">Bias</th><th class="p-3">Philosophy / Emphasis</th></tr></thead><tbody><tr class="border-t"><td class="p-3 font-semibold">My AI Model</td><td class="p-3">-3</td><td class="p-3">Moderately Bearish</td><td class="p-3">Balanced macro + market-structure weighting</td></tr><tr class="border-t"><td class="p-3 font-semibold">Angelo Model A</td><td class="p-3">-3</td><td class="p-3">Mildly Bearish</td><td class="p-3">Macro-risk defensive</td></tr><tr class="border-t"><td class="p-3 font-semibold">Angelo Model B</td><td class="p-3">-2</td><td class="p-3">Slightly Bearish / Choppy</td><td class="p-3">Geopolitical + rates cautious</td></tr><tr class="border-t"><td class="p-3 font-semibold">Friend Model C</td><td class="p-3">+2</td><td class="p-3">Slightly Bullish</td><td class="p-3">Momentum-aware / tech-resilience</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section id="agent" class="tab-panel hidden space-y-4">
+      <div class="grid gap-4 lg:grid-cols-2">
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="mb-4 text-lg font-bold">Production Agent Instruction</h3><div class="rounded-2xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><p class="font-semibold">Role: SPX 0DTE Morning Bias Model</p><p class="mt-3">Run at 9:30 AM ET on regular U.S. equity trading days. If the market is closed, stop and produce no intraday 0DTE idea.</p><p class="mt-3">Score SPX direction for the rest of the session from -10 to +10 using futures, macro/rates, commodities/geopolitics, global equities, volatility, sector leadership, and sentiment.</p><p class="mt-3">Output exactly two pages: Page 1 is the model report. Page 2 compares peer models and averages all available scores.</p></div></div>
+        <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="mb-4 text-lg font-bold">Required Daily Inputs</h3><div class="space-y-3 text-sm"><p><b>Market Snapshot:</b> SPX, ES, NQ, VIX, yields, DXY, WTI, gold</p><p><b>Global Context:</b> Europe, Asia, FX stress, cross-asset tone</p><p><b>News & Events:</b> Macro headlines, Fed calendar, earnings, geopolitics</p><p><b>Technical Context:</b> Opening range, VWAP, levels, breadth, sectors</p><p><b>Peer Models:</b> Angelo A, Angelo B, Friend C</p></div></div>
+      </div>
+    </section>
+
+    <section id="workflow" class="tab-panel hidden space-y-4">
+      <div class="grid gap-4 md:grid-cols-4">
+        <div class="rounded-2xl bg-white p-5 shadow-sm"><h3 class="font-bold">9:25 ET Trigger</h3><p class="mt-2 text-sm text-slate-600">Scheduler wakes up and checks market status.</p></div>
+        <div class="rounded-2xl bg-white p-5 shadow-sm"><h3 class="font-bold">Data Collection</h3><p class="mt-2 text-sm text-slate-600">Pulls futures, VIX, yields, DXY, oil, global markets, news, and peer scores.</p></div>
+        <div class="rounded-2xl bg-white p-5 shadow-sm"><h3 class="font-bold">LLM Scoring</h3><p class="mt-2 text-sm text-slate-600">Runs the fixed prompt and creates the two-page report.</p></div>
+        <div class="rounded-2xl bg-white p-5 shadow-sm"><h3 class="font-bold">Dashboard Push</h3><p class="mt-2 text-sm text-slate-600">Publishes to dashboard, email, Notion, or Slack.</p></div>
+      </div>
+      <div class="rounded-2xl border-orange-200 bg-orange-50 p-6 shadow-sm"><h3 class="font-bold text-orange-800">0DTE Risk Rule Built Into Agent</h3><p class="mt-2 text-sm leading-6 text-orange-900">The agent never produces naked or undefined-risk option structures. It marks all 0DTE ideas as educational framing, requires opening-range confirmation, and lowers confidence when critical inputs are missing.</p></div>
+    </section>
+  </main>
+
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(el => el.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      document.querySelectorAll('.tab').forEach(el => { el.classList.remove('tab-active'); el.classList.add('tab-inactive'); });
+      btn.classList.add('tab-active'); btn.classList.remove('tab-inactive');
+    }
+
+    new Chart(document.getElementById('bucketChart'), {
+      type: 'bar',
+      data: { labels: ['Futures', 'Macro', 'News', 'Global', 'Sentiment'], datasets: [{ label: 'Score', data: [-4, -5, -4, -2, -1] }] },
+      options: { scales: { y: { min: -10, max: 10 } }, plugins: { legend: { display: false } } }
+    });
+    new Chart(document.getElementById('modelChart'), {
+      type: 'bar',
+      data: { labels: ['My AI Model', 'Angelo A', 'Angelo B', 'Friend C'], datasets: [{ label: 'Score', data: [-3, -3, -2, 2] }] },
+      options: { scales: { y: { min: -10, max: 10 } }, plugins: { legend: { display: false } } }
+    });
+  </script>
+</body>
+</html>
