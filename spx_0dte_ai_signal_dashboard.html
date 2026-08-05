@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SPX 0DTE AI Signal Dashboard</title>
+  <title>SPX 0DTE Dashboard — Yasir A. Malik</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -11,12 +11,47 @@
     .tab-active { background: #0f172a; color: white; }
     .tab-inactive { background: white; color: #334155; }
   </style>
+  <link rel="icon" href=".github/brand/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#E0662E" />
+  <style>
+    /* ===============================================================
+       THE REFERENCE MARK — brand layer
+       Yasir A. Malik · Audit · Risk · Governance
+       This page is built on Tailwind utility classes, so the identity
+       is applied as a layer over them rather than by re-pointing
+       variables. Ember #E0662E carries rules, fills and the mark; text
+       uses #AD4317, which clears 4.5:1 on every light surface here.
+       =============================================================== */
+    :root{
+      --ember:#E0662E; --ember-ink:#AD4317; --paper:#F6F3F0;
+      --ink:#171A1D; --muted:#5A646E; --line:#E2DAD3;
+      --record:"Bitstream Charter",Charter,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+      --instrument:ui-monospace,"SF Mono",Menlo,"Cascadia Mono","Roboto Mono",monospace;
+    }
+    body{background:var(--paper)!important;border-top:3px solid var(--ember);color:var(--ink);}
+    h1,h2,h3{font-family:var(--record)!important;letter-spacing:-.015em!important;}
+    .brandline{display:flex;align-items:center;gap:13px;margin-bottom:10px;}
+    .brandline .kicker{font-family:var(--instrument);font-size:11px;letter-spacing:.16em;
+      text-transform:uppercase;color:var(--ember-ink);}
+    .tab-active{background:var(--ink)!important;color:var(--paper)!important;}
+    .tab-inactive{background:#fff!important;color:var(--muted)!important;}
+    /* pull Tailwind's stock slate/orange onto the identity */
+    .text-slate-950,.text-slate-900{color:var(--ink)!important;}
+    .text-slate-600,.text-slate-500{color:var(--muted)!important;}
+    .border-orange-200{border-color:rgba(224,102,46,.42)!important;}
+    .bg-orange-50{background:#FDF4EF!important;}
+    .text-orange-700,.text-orange-600{color:var(--ember-ink)!important;}
+    .bg-white{background:#fff!important;}
+    .border-slate-200,.border-slate-300{border-color:var(--line)!important;}
+    .rounded-2xl,.rounded-xl{border-radius:6px!important;}
+    a{color:var(--ember-ink);text-underline-offset:3px;}
+  </style>
 </head>
 <body class="text-slate-950">
   <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
     <section class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
       <div>
-        <div class="text-sm text-slate-500">Production Agent • 9:30 AM ET • U.S. Trading Days</div>
+        <div class="brandline"><svg width="34" height="34" viewBox="0 0 64 64" fill="none" aria-hidden="true" style="flex:0 0 auto"><path d="M19.88 10.13 A25 25 0 1 1 8.36 23.86" stroke="#E0662E" stroke-width="4.4" stroke-linecap="round"/><circle cx="12.85" cy="15.93" r="3.9" fill="#E0662E"/><path d="M20 47 L32 19.5 L44 47" stroke="#171A1D" stroke-width="5.2" stroke-linejoin="miter" stroke-linecap="butt"/><path d="M21.09 38 H51.5" stroke="#171A1D" stroke-width="5.2" stroke-linecap="butt"/></svg><div class="kicker">Production Agent · 9:30 AM ET · U.S. Trading Days</div></div>
         <h1 class="mt-2 text-3xl md:text-5xl font-bold tracking-tight">SPX 0DTE AI Signal Dashboard</h1>
         <p class="mt-2 max-w-3xl text-slate-600">Two-page daily agent framework for SPX intraday bias, model comparison, peer-score averaging, and defined-risk 0DTE decision discipline.</p>
       </div>
