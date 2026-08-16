@@ -78,9 +78,10 @@
       <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="text-xs uppercase tracking-wide text-slate-500">Market Status</div><div class="mt-1 text-xl font-bold">Open</div><span class="mt-2 inline-block rounded-full bg-slate-100 px-3 py-1 text-xs">9:30 ET</span></div>
     </section>
 
-    <nav class="grid grid-cols-2 md:grid-cols-4 gap-2 rounded-2xl bg-white p-2 shadow-sm">
+    <nav class="grid grid-cols-2 md:grid-cols-5 gap-2 rounded-2xl bg-white p-2 shadow-sm">
       <button onclick="showTab('page1', this)" class="tab tab-active rounded-xl px-4 py-3 font-semibold">Page 1</button>
       <button onclick="showTab('page2', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Page 2</button>
+      <button onclick="showTab('tech', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Tech Outlook</button>
       <button onclick="showTab('agent', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Agent Engine</button>
       <button onclick="showTab('workflow', this)" class="tab tab-inactive rounded-xl px-4 py-3 font-semibold">Workflow</button>
     </nav>
@@ -121,6 +122,100 @@
       </div>
     </section>
 
+    <!-- ===============================================================
+         TECH OUTLOOK — weekly tech-sleeve call.
+         Data contract: MalikAI-786-spx/docs/PORTFOLIO-SCHEMA.md
+         Rendered from data/portfolio.json, written by portfolio_track.py
+         and copied here by the sync-dashboard workflow. Every field is
+         derived from public market data plus tickers and percentage
+         weights — no balances, no account numbers, by construction.
+         =============================================================== -->
+    <section id="tech" class="tab-panel hidden space-y-4">
+      <div id="techBanner" class="hidden rounded-2xl border-2 border-orange-200 bg-orange-50 p-4 text-sm font-semibold text-orange-700"></div>
+
+      <div id="techEmpty" class="rounded-2xl bg-white p-8 shadow-sm text-center">
+        <div class="text-lg font-semibold">No outlook published yet</div>
+        <p class="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
+          This tab renders <code>data/portfolio.json</code>, written by
+          <code>scripts/portfolio_track.py</code> on Friday after the close.
+          Nothing is shown until a real week has been scored — the tab does
+          not display placeholder numbers.
+        </p>
+        <p class="mt-3 text-xs text-slate-500">
+          Append <code>?demo=1</code> to preview the layout from the
+          fixture-backed example file.
+        </p>
+      </div>
+
+      <div id="techBody" class="hidden space-y-4">
+        <div class="grid gap-4 lg:grid-cols-3">
+          <div class="rounded-2xl border-2 border-orange-200 bg-orange-50 p-6 shadow-sm">
+            <div class="text-sm font-semibold text-orange-700">Weekly Tech Sleeve Outlook</div>
+            <div id="techComposite" class="mt-4 text-6xl font-black text-orange-700">—</div>
+            <div id="techLabel" class="text-lg font-semibold text-orange-700">—</div>
+            <div id="techMeta" class="mt-3 text-sm text-slate-700"></div>
+            <span id="techConfidence" class="mt-4 inline-block rounded-full border px-3 py-1 text-sm"></span>
+          </div>
+          <div class="rounded-2xl bg-white p-6 shadow-sm lg:col-span-2">
+            <div class="mb-4 font-semibold">Bucket Scores</div>
+            <canvas id="techBucketChart" height="120"></canvas>
+            <p id="techAbstained" class="mt-3 text-xs leading-5 text-slate-500"></p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-white p-6 shadow-sm overflow-x-auto">
+          <h3 class="mb-4 text-lg font-bold">Bucket Detail</h3>
+          <table class="w-full text-sm border rounded-2xl overflow-hidden">
+            <thead class="bg-slate-100 text-left"><tr>
+              <th class="p-3">Bucket</th><th class="p-3">Score</th>
+              <th class="p-3">Weight</th><th class="p-3">Rationale</th>
+            </tr></thead>
+            <tbody id="techBucketRows"></tbody>
+          </table>
+        </div>
+
+        <div class="grid gap-4 lg:grid-cols-3">
+          <div class="rounded-2xl bg-white p-6 shadow-sm">
+            <h3 class="font-semibold">Sleeve Constituents</h3>
+            <table class="mt-3 w-full text-sm"><tbody id="techConstituents"></tbody></table>
+            <p class="mt-3 text-xs text-slate-500">
+              Tickers and percentage weights only. Balances and account
+              details are never published here.
+            </p>
+          </div>
+          <div class="rounded-2xl bg-white p-6 shadow-sm lg:col-span-2">
+            <h3 class="font-semibold">If contributions continue — 52-week scenario</h3>
+            <canvas id="techProjChart" height="150"></canvas>
+            <p id="techProjNote" class="mt-3 text-xs leading-5 text-slate-500"></p>
+          </div>
+        </div>
+
+        <div class="grid gap-4 lg:grid-cols-2">
+          <div class="rounded-2xl bg-white p-6 shadow-sm">
+            <h3 class="font-semibold">Track Record</h3>
+            <p id="techRecord" class="mt-3 text-sm leading-6 text-slate-700"></p>
+            <p class="mt-2 text-xs leading-5 text-slate-500">
+              Each week's call is written to an append-only ledger before the
+              outcome exists. The following week fills in only the outcome
+              columns. That is what makes the hit-rate meaningful rather than
+              retrospective.
+            </p>
+          </div>
+          <div class="rounded-2xl border-orange-200 bg-orange-50 p-6 shadow-sm">
+            <h3 class="font-bold text-orange-800">What this is not</h3>
+            <p class="mt-2 text-sm leading-6 text-orange-900">
+              This is an outlook on a long-horizon retirement sleeve, not a
+              trade instruction and not a suggestion to change contributions.
+              The honest action on almost every weekly reading is nothing. The
+              projection is a bootstrap over trailing volatility, not a
+              forecast, and it does not net out management fees.
+            </p>
+            <p id="techDisclaimer" class="mt-3 text-xs leading-5 text-orange-900"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="agent" class="tab-panel hidden space-y-4">
       <div class="grid gap-4 lg:grid-cols-2">
         <div class="rounded-2xl bg-white p-6 shadow-sm"><h3 class="mb-4 text-lg font-bold">Production Agent Instruction</h3><div class="rounded-2xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><p class="font-semibold">Role: SPX 0DTE Morning Bias Model</p><p class="mt-3">Run at 9:30 AM ET on regular U.S. equity trading days. If the market is closed, stop and produce no intraday 0DTE idea.</p><p class="mt-3">Score SPX direction for the rest of the session from -10 to +10 using futures, macro/rates, commodities/geopolitics, global equities, volatility, sector leadership, and sentiment.</p><p class="mt-3">Output exactly two pages: Page 1 is the model report. Page 2 compares peer models and averages all available scores.</p></div></div>
@@ -157,6 +252,151 @@
       data: { labels: ['My AI Model', 'Angelo A', 'Angelo B', 'Friend C'], datasets: [{ label: 'Score', data: [-3, -3, -2, 2] }] },
       options: { scales: { y: { min: -10, max: 10 } }, plugins: { legend: { display: false } } }
     });
+
+  </script>
+
+  <script>
+    // ---- Tech Outlook tab -------------------------------------------------
+    // Renders data/portfolio.json. Shows an explicit empty state rather than
+    // placeholder numbers when no week has been scored yet.
+    //
+    // Deliberately its own <script> block: a throw in the block above (a CDN
+    // that failed to load, a chart that errored) would otherwise abort this
+    // code too and leave the tab permanently blank. Chart.js is likewise
+    // treated as optional here — the numbers and tables are the substance,
+    // the charts are decoration.
+    (function () {
+      var demo = new URLSearchParams(location.search).get('demo') === '1';
+      var src = demo ? 'data/portfolio.example.json' : 'data/portfolio.json';
+
+      fetch(src, { cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(renderTech)
+        .catch(function () { /* empty state is already the default */ });
+
+      function fmt(n, d) { return (n >= 0 ? '+' : '') + Number(n).toFixed(d === undefined ? 2 : d); }
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      }
+
+      function renderTech(d) {
+        document.getElementById('techEmpty').classList.add('hidden');
+        document.getElementById('techBody').classList.remove('hidden');
+
+        if (d.banner) {
+          var b = document.getElementById('techBanner');
+          b.textContent = d.banner + (d.example ? ' · example data, not a scored week' : '');
+          b.classList.remove('hidden');
+        }
+
+        document.getElementById('techComposite').textContent = fmt(d.call.composite);
+        document.getElementById('techLabel').textContent = d.call.label;
+        document.getElementById('techMeta').textContent =
+          'Week ending ' + d.week_ending + ' · benchmark ' + d.basket.benchmark +
+          ' · bucket span ' + Number(d.call.bucket_span).toFixed(2);
+        document.getElementById('techConfidence').textContent =
+          'Confidence: ' + d.call.confidence;
+        document.getElementById('techDisclaimer').textContent = d.disclaimer || '';
+
+        // Bucket chart — abstentions are omitted, not plotted as zero.
+        var scored = d.buckets.filter(function (x) { return !x.abstained; });
+        if (typeof Chart !== 'undefined') {
+          new Chart(document.getElementById('techBucketChart'), {
+            type: 'bar',
+            data: {
+              labels: scored.map(function (x) { return x.name; }),
+              datasets: [{ label: 'Score', data: scored.map(function (x) { return x.score; }) }]
+            },
+            options: { scales: { y: { min: -2, max: 2 } }, plugins: { legend: { display: false } } }
+          });
+        }
+
+        var ab = d.call.abstained || [];
+        document.getElementById('techAbstained').textContent = ab.length
+          ? 'Abstained this week: ' + ab.join(', ') +
+            '. Weights were renormalized over the buckets that scored — an ' +
+            'absent input is not a neutral one, so it is dropped rather than zeroed.'
+          : 'All five buckets scored this week.';
+
+        document.getElementById('techBucketRows').innerHTML = d.buckets.map(function (x) {
+          var cell = x.abstained
+            ? '<span class="text-slate-400">abstained</span>'
+            : '<span class="font-semibold ' +
+              (x.score > 0 ? 'text-emerald-700' : x.score < 0 ? 'text-red-700' : '') +
+              '">' + fmt(x.score) + '</span>';
+          var w = x.abstained ? '—' : (x.weight * 100).toFixed(0) + '%';
+          return '<tr class="border-t"><td class="p-3 font-semibold capitalize">' +
+            esc(x.name) + '</td><td class="p-3">' + cell + '</td><td class="p-3">' +
+            w + '</td><td class="p-3 text-slate-600">' + esc(x.rationale) + '</td></tr>';
+        }).join('');
+
+        document.getElementById('techConstituents').innerHTML =
+          d.basket.constituents.map(function (c) {
+            return '<tr class="border-t"><td class="py-2 font-semibold">' +
+              esc(c.ticker) + '</td><td class="py-2 text-right text-slate-600">' +
+              Number(c.weight_pct).toFixed(1) + '%</td></tr>';
+          }).join('');
+
+        var tr = d.track_record || {};
+        document.getElementById('techRecord').textContent =
+          tr.directional_hit_rate == null
+            ? (tr.weeks_recorded || 0) + ' week(s) recorded, none scored yet. ' +
+              'A hit-rate appears once a call has had its outcome week.'
+            : tr.weeks_scored + ' of ' + tr.weeks_recorded +
+              ' recorded weeks scored · ' +
+              (tr.directional_hit_rate * 100).toFixed(0) + '% directionally right.';
+
+        renderProjection(d.projection);
+      }
+
+      function renderProjection(p) {
+        var note = document.getElementById('techProjNote');
+        if (!p || !p.available) {
+          note.textContent = (p && p.note) || 'Projection unavailable.';
+          return;
+        }
+        var labels = p.path.map(function (x) { return x.week; });
+        if (typeof Chart === 'undefined') {
+          note.textContent = 'Chart library unavailable — median path at week ' +
+            p.path[p.path.length - 1].week + ': ' +
+            p.path[p.path.length - 1].p50 + ' (p10 ' +
+            p.path[p.path.length - 1].p10 + ', p90 ' +
+            p.path[p.path.length - 1].p90 + ', base 100). ' + p.note;
+          return;
+        }
+        new Chart(document.getElementById('techProjChart'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'p90', data: p.path.map(function (x) { return x.p90; }),
+                borderColor: '#4FC0B2', borderWidth: 1, pointRadius: 0, fill: '+1',
+                backgroundColor: 'rgba(224,102,46,0.10)' },
+              { label: 'median', data: p.path.map(function (x) { return x.p50; }),
+                borderColor: '#AD4317', borderWidth: 2, pointRadius: 0, fill: false },
+              { label: 'p10', data: p.path.map(function (x) { return x.p10; }),
+                borderColor: '#4FC0B2', borderWidth: 1, pointRadius: 0, fill: '-1',
+                backgroundColor: 'rgba(224,102,46,0.10)' }
+            ]
+          },
+          options: {
+            interaction: { intersect: false, mode: 'index' },
+            scales: {
+              x: { title: { display: true, text: 'weeks ahead' } },
+              y: { title: { display: true, text: 'index, base 100' } }
+            }
+          }
+        });
+        note.textContent =
+          'Normalized index, base 100 — no balance is disclosed. Bootstrap over ' +
+          p.trailing_weeks_sampled + ' trailing weekly returns (' +
+          p.annualized_vol_pct + '% annualized vol), contributions assumed ' +
+          p.cadence + '. The composite call is deliberately excluded from this ' +
+          'path. ' + p.note;
+      }
+    })();
   </script>
 </body>
 </html>
